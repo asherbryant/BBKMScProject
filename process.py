@@ -2,15 +2,14 @@ import numpy as np
 import pandas as pd
 
 
-def load_chrom_index():
+def load_chrom_list():
     
     chrom_list = ['chr1', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr2', 'chr20', 'chr21', 'chr22', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9']
     
     return chrom_list
 
 
-
-def extract(norm_controls_cov, correct_cases_cov, sites, length):
+def extract_signal(norm_controls_cov, correct_cases_cov, tfbs_df_list, sites, bases):
     
     norm_samples_cov = norm_controls_cov + correct_cases_cov
     sample_signals = []
@@ -26,6 +25,7 @@ def extract(norm_controls_cov, correct_cases_cov, sites, length):
                 chrom_index = chrom_list.index(chrom)
                 sample_array = sample[chrom_index]
                 
+                length = (bases*2) + 1
                 start = tf[j].ROI_start.to_numpy(int) # array of start position of tf bs on a chrom 
                 end = start + length
 

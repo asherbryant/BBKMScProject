@@ -123,9 +123,9 @@ def nomrmalize(controls, cases, cna_files):
     number_of_cases = len(cases)
     number_of_cna_files = len(cna_files)
         
-    if len(number_of_cases) != len(number_of_cna_files):
-        print(f'There are {number_of_cases} case samples, but {number_of_cna_files} ichorCNA files.\nEnsure file numbers are the same & try again!')
-        break
+    if number_of_cases != number_of_cna_files:
+        raise Exception(f'There is/are {number_of_cases} case sample(s), but {number_of_cna_files} ichorCNA file(s).\nEnsure there for each case there is a ichorCNA file & vice versa.')
+        
     else:
         print(f'Got {number_of_controls} control and {number_of_cases} case samples!')
     
@@ -133,7 +133,7 @@ def nomrmalize(controls, cases, cna_files):
     samples = controls + cases
     samples_cov = sample_cov(samples)
     
-    weighted_means = weighted_mean(samples_cov)
+    weighted_means = average(samples_cov)
     
     norm_controls_cov, norm_cases_cov = norm_sample_cov(samples_cov, weighted_means, number_of_controls, number_of_cases)
     
