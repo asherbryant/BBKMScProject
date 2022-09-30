@@ -18,7 +18,7 @@ def sample_cov(samples):
         for file in files:
             df = dd.read_parquet(file)
             cov = df['coverage'].compute()
-            cov_array = cov.to_numpy().astype(np.float32)
+            cov_array = cov.to_numpy().astype(np.float16)
             sample_cov.append(cov_array)
     
         samples_cov.append(sample_cov)
@@ -30,6 +30,7 @@ def sample_cov(samples):
 def average(samples_cov):
     
     print("Calculating weighted mean...")
+    
     weighted_means = []
     for i in range(len(samples_cov)):
         chrom_means = [np.mean(a) for a in samples_cov[i]]
@@ -104,7 +105,7 @@ def correct_case_cov(norm_cases_cov, ichorCNA_start_list, ichorCNA_cn_list, bin_
     for i in range(len(norm_cases_cov)):   
         cn_norm_case_cov = []
         for j in range(len(norm_cases_cov[i])): 
-            chrom_array = norm_cases_cov[i][j].copy().astype(np.float32)
+            chrom_array = norm_cases_cov[i][j].copy().astype(np.float16)
             for k in range(len(ichorCNA_start_list[i][j])): 
                 start = ichorCNA_start_list[i][j][k] - 1 # change to index
                 end = start + bin_size
@@ -117,8 +118,9 @@ def correct_case_cov(norm_cases_cov, ichorCNA_start_list, ichorCNA_cn_list, bin_
     return correct_cases_cov
 
 
-def nomrmalize(controls, cases, cna_files):
-    
+
+def normalize(controls, cases, cna_files):    
+        
     number_of_controls = len(controls)
     number_of_cases = len(cases)
     number_of_cna_files = len(cna_files)
@@ -144,7 +146,7 @@ def nomrmalize(controls, cases, cna_files):
     number_of_samples = len(norm_controls_cov) + len(correct_cases_cov)
     
     print(f"Normalization of {number_of_samples} samples complete!")
-    return norm_controls_cov, correct_cases_cov
+    return norm_controls_cov, correct_cases_cov, number_of_controls
 
 
     

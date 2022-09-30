@@ -1,0 +1,13 @@
+B-cells
+monocytes from periferal blood
+primary B cells from peripheral blood
+HL-60 (acute myeloid leukemia)
+K562 (myelogenous leukemia)
+NB4 (acute promyelocytic leukemia )
+THP-1 (acute monocytic leukemia)
+TSU-1621-MT (adult acute myeloid leukemia)
+DOHH2 (diffuse large B-cell lymphoma)
+OCI-LY3 (diffuse large B-cell lymphoma)
+OCI-LY10 (diffuse large B-cell lymphoma)
+H929 (plasma cell myeloma)
+MM1.S (plasma cell myeloma)
