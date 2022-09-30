@@ -23,7 +23,10 @@ def plot_tfbs(signal_df, sample_names, number_of_controls, tf_list, out_director
         
         a.set_xticks(xticks)
         a.set_xticklabels(xticklabels)
+        a.set(title=f'{tf}')
         
+        plt.ylabel('Normalized coverage', fontsize=12)
+        plt.xlabel('Relative distance to TFBS (bp)', fontsize=12)
         plt.legend(loc='upper right')
         sns.despine()
         
