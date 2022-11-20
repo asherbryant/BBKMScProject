@@ -4,7 +4,7 @@ import operator
 from os.path import exists
 
 
-def remove_overlaps(in_directory, sites, bases, tf_list, cell_list):
+def remove_overlaps(in_directory, sites, bases, overlap, tf_list, cell_list):
     
     not_in_GTRD = []
     excluded_tfs = []
@@ -52,7 +52,7 @@ def remove_overlaps(in_directory, sites, bases, tf_list, cell_list):
                 df['ROI_start_diff'] = df.ROI_start.diff().abs()
                 df['ROI_reverse_start_diff'] = df.ROI_start.diff().shift(-1)
 
-                length = (bases*2) + 1 
+                length = (overlap*2) + 1 
                 df = df.drop(df[(df['ROI_start_diff'] <= length)].index)
                 df = df.drop(df[(df['ROI_reverse_start_diff'] <= length)].index)
                 df_list.append(df)
@@ -64,11 +64,11 @@ def remove_overlaps(in_directory, sites, bases, tf_list, cell_list):
 
 
 
-def screen_tfbs(in_directory, tf_list, cell_list, sites, bases):
+def screen_tfbs(in_directory, tf_list, cell_list, sites, bases, overlap):
     number_of_tfs = len(tf_list)
     print(f'Screening {number_of_tfs} TF(s)...')
           
-    df_list, excluded_tfs, not_in_GTRD = remove_overlaps(in_directory, sites, bases, tf_list, cell_list)
+    df_list, excluded_tfs, not_in_GTRD = remove_overlaps(in_directory, sites, bases, overlap, tf_list, cell_list)
     
     screened_tfs = []
     tfbs_df_list = []

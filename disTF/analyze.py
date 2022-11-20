@@ -4,7 +4,7 @@ import itertools
 from dtaidistance import ed
 
 
-def create_args(samples_signal_list, screened_tfs, start=949, end=1050):
+def create_args(samples_signal_list, screened_tfs, start, end):
     
     signal_range = slice(start,end)
     # flatten samples_signal_list so same tf signal of all 9 samples are together
@@ -22,9 +22,9 @@ def create_args(samples_signal_list, screened_tfs, start=949, end=1050):
     return grouped_args
 
 
-def get_combinations(samples_signal_list, sample_names, screened_tfs, combinations_file):
+def get_combinations(samples_signal_list, sample_names, screened_tfs, combinations_file, start, end):
     
-    grouped_args = create_args(samples_signal_list, screened_tfs)
+    grouped_args = create_args(samples_signal_list, screened_tfs, start, end)
     
     disTF_lists = []
 
@@ -48,9 +48,9 @@ def get_combinations(samples_signal_list, sample_names, screened_tfs, combinatio
     return combinations_df
 
 
-def get_product(samples_signal_list, sample_names, screened_tfs, product_file):
+def get_product(samples_signal_list, sample_names, screened_tfs, product_file, start, end):
     
-    grouped_args = create_args(samples_signal_list, screened_tfs)
+    grouped_args = create_args(samples_signal_list, screened_tfs, start, end)
     
     disTF_lists = []
 
@@ -73,37 +73,5 @@ def get_product(samples_signal_list, sample_names, screened_tfs, product_file):
     
     return product_df
 
-
-def get_ranks(product_df, sample_names, number_of_controls, ranks_file):
-    
-    control_names = sample_names[:number_of_controls]
-    case_names = sample_names[number_of_controls:]
-
-    df = product_df
-    tf_gb = df.groupby('TF')    
-    tf_df_list = [tf_gb.get_group(x) for x in tf_gb.groups]
-    
-    sample_min_distances = []
-    for case in case_names:
-        ctrl_dfs = [df.query(f"sample_1 == '{case}' & sample_2 in {control_names}") for df in tf_df_list]
-
-        min_distances = []
-        tf_names = []
-        for tf in ctrl_dfs:
-            tf_name = tf.TF.iloc[0]
-            min_distance = tf.distance.min()
-            tf_names.append(tf_name)
-            min_distances.append(min_distance)
-        sample_min_distances.append(min_distances)
-    
-    dis_dict = dict(zip(case_names, sample_min_distances))
-    dis_df = pd.DataFrame(dis_dict)
-    dis_df.insert(0, 'TF', tf_names)
-    ranks_df = dis_df.sort_values(by=case_names[0], ascending=False).reset_index(drop=True)
-    
-    
-    ranks_df.to_parquet(ranks_file)
-    
-    return ranks_df
     
     
