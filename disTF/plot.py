@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def plot_tfbs(signal_df, sample_names, number_of_controls, tf_list, out_directory, xticks = [0, 499, 1000, 1501, 2001], xticklabels = [-1000, -500, 0, 500, 1000]):
+def plot_tfbs(signal_df, sample_names, number_of_controls, tf_list, out_directory, xticks, xticklabels):
     
     number_of_plots = len(tf_list)
     print(f'Making {number_of_plots} plots...')
@@ -16,7 +16,7 @@ def plot_tfbs(signal_df, sample_names, number_of_controls, tf_list, out_director
         plt.rcParams['figure.figsize'] = (10,7)
         
         fig, ax = plt.subplots()
-        fig.suptitle(tf, fontsize=16)
+        #fig.suptitle(tf, fontsize=16)
         
         a = sns.lineplot(data = controls_df, palette ='binary_r', dashes=True, ax=ax)
         b = sns.lineplot(data = cases_df, palette = 'Dark2', dashes=False, ax=ax)
@@ -27,7 +27,7 @@ def plot_tfbs(signal_df, sample_names, number_of_controls, tf_list, out_director
         
         plt.ylabel('Normalized coverage', fontsize=12)
         plt.xlabel('Relative distance to TFBS (bp)', fontsize=12)
-        plt.legend(loc='upper right')
+        plt.legend(loc='lower right')
         sns.despine()
         
         plt.savefig(f'{out_directory}/{tf}.png', dpi=300)

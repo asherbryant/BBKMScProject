@@ -64,7 +64,7 @@ def remove_overlaps(in_directory, sites, bases, tf_list, cell_list):
 
 
 
-def screen_tfbs(in_directory, tf_list, cell_list, sites=1000, bases=1000):
+def screen_tfbs(in_directory, tf_list, cell_list, sites, bases):
     number_of_tfs = len(tf_list)
     print(f'Screening {number_of_tfs} TF(s)...')
           
@@ -143,4 +143,4 @@ def screen_tfbs(in_directory, tf_list, cell_list, sites=1000, bases=1000):
         not_in_GTRD_str = ', '.join([str(tf) for tf in not_in_GTRD])
         print(f'The following TF(s) is/are not in the GTRD database: {not_in_GTRD_str}.')
             
-    return screened_tfs, tfbs_df_list, sites, bases, tf_count
+    return screened_tfs, tfbs_df_list, tf_count

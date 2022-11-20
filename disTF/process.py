@@ -8,7 +8,7 @@ def get_sample_names(controls, cases):
     sample_dirs = controls + cases
     sample_names = []
     for sample_dir in sample_dirs:
-        sample_name = sample_dir[25:]
+        sample_name = sample_dir.rsplit('/', 1)[-1]
         sample_names.append(sample_name)
     
     return sample_names
