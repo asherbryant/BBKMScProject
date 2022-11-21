@@ -1,6 +1,6 @@
 # disTF
 disTF is a command-line tool for the analysis of cell-free DNA (cfDNA) fragment coverage[^note] in regions around cell-specific transcription factor binding sites (TFBS). It takes as input fragment coverage files generated from the [@uzh-dqbm-cmi](https://github.com/uzh-dqbm-cmi) cfDNA pipeline, [ichorCNA](https://github.com/broadinstitute/ichorCNA) copy number files and TFBS data acquired from [GTRD](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/). The Euclidean distance between case and control fragment coverage signals is analyzed and the signals plotted.
-[^note]: Genome tools (e.g. bedtools) routinely report read coverage. In paired-end sequencing, read coverage depends on the inner distance between reads. Therefore, read coverage can be zero, one, or two at a given genomic coordinate, whereas fragment coverage is always one. See [figure](read_v_frag_cov.png).
+[^note]: Genome tools (e.g. bedtools) routinely report read coverage. In paired-end sequencing, read coverage depends on the inner distance between reads. Therefore, read coverage can be zero, one, or two at a given genomic coordinate, whereas fragment coverage is always one. See [figure](read_vs_frag.png).
 ## Manual
 ~~~text
 usage: disTF.py [-h] --tf_dir TF_DIRECTORY --tfs TF_FILE --cells CELL_FILE
@@ -40,7 +40,7 @@ REQUIRED.<br />
 Paths to case directories containing fragment coverage files.<br />
 REQUIRED.<br />
 **--cnas**<br />
-Paths to [ichorCNA](https://github.com/broadinstitute/ichorCNA) cna.seg files for each case.<br />
+Paths to ichorCNA cna.seg files for each case.<br />
 REQUIRED.<br />
 **--distance**<br />
 Number of bases from center of aggregated signal to evaluate the Euclidean distance.<br />
