@@ -1,6 +1,6 @@
 # disTF
-disTF is a command-line tool developed to quantify cell-free DNA (cfDNA) fragment coverage in regions around transcription factor binding sites (TFBS). It takes as input fragment coverage files generated from the [@uzh-dqbm-cmi](https://github.com/uzh-dqbm-cmi) cfDNA pipeline and TFBS data acquired from [GTRD](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/). The Euclidean distance between case and control coverage signals is analyzed and the signals plotted.
-
+disTF is a command-line tool for the analysis of cell-free DNA (cfDNA) fragment coverage[^note] in regions around cell-specific transcription factor binding sites (TFBS). It takes as input fragment coverage files generated from the [@uzh-dqbm-cmi](https://github.com/uzh-dqbm-cmi) cfDNA pipeline, [ichorCNA](https://github.com/broadinstitute/ichorCNA) copy number files and TFBS data acquired from [GTRD](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/). The Euclidean distance between case and control fragment coverage signals is analyzed and the signals plotted.
+[^note]: Genome tools (e.g. bedtools) routinely report read coverage. In paired-end sequencing, read coverage depends on the inner distance between reads. Therefore, read coverage can be zero, one, or two at a given genomic coordinate, whereas fragment coverage is always one. See [figure](read_v_frag_cov.png).
 ## Manual
 ~~~text
 usage: disTF.py [-h] --tf_dir TF_DIRECTORY --tfs TF_FILE --cells CELL_FILE
@@ -80,7 +80,25 @@ disTF creates a directory as specified by the `-o` argument. Within this directo
 - **signal.parquet**: fragment coverage normalized by sequencing depth and CNAs over the TFBS regions,<br />
 - **product.parquet**: all unique distances between samples,<br />
 - **combinations.parquet**: all possible distances between samples,<br />
-- **pngs**: plots for each TF with all sample signals plotted.Cases signals are colored, while control signals are shown as black, solid or dotted lines. Example shown below.<br />
+- **pngs**: plots for each TF including all sample signals. Cases signals are colored, while control signals are shown as black, solid or dotted lines. Example shown below.<br />
 <p align="left">
 <img align="left" src="output_ex.png" width="600">
 </p>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
