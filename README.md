@@ -14,9 +14,9 @@ Liquid biopsies of blood cell-free DNA (cfDNA) and circulating tumor DNA (ctDNA)
 ## Respository Contents
 In reference to the graphical summary of methods above, the repository contents include:<br />
 **(A/B)** [Information](sample_info.csv) about the study cohort and samples;<br />
-**(C)** ichorCNA<sup>1</sup> and t-MAD<sup>2</sup> copy number abberration (CNA) [plots](output);<br />
+**(C)** ichorCNA<sup>1</sup> and t-MAD<sup>2</sup> copy number aberration (CNA) [plots](output);<br />
 **(D)** LIQUORICE<sup>3</sup> DHS [data output and plots](output/LIQUORICE/), [script](PCA) for the PCA of dip depth z-scores, [scripts](Peneder) for the reanalysis of a pediatric sarcoma cohort<sup>4</sup>;<br />
-**(E)** TFBS  [command-line program](disTF) and [data output](output/TFBS/), [script](TFBS/split_GTRD.py) to split [GTRD<sup>5</sup> ChiP-seq data](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/) by TF;<br />
+**(E)** TFBS  [command-line tool](disTF) and [data output](output/TFBS/), [script](TFBS/split_GTRD.py) to split [GTRD<sup>5</sup> ChiP-seq data](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/) by TF;<br />
 **(F)** [Scripts](coverage_WPS) comparing fragment coverage and windowed protection score (WPS) at promoter regions.<br />
 <br />
 
