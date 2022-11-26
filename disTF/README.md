@@ -1,7 +1,11 @@
 # disTF
-disTF is a command-line tool for the analysis of cell-free DNA (cfDNA) fragment coverage[^note] in regions around cell-specific transcription factor binding sites (TFBS). It takes as input fragment coverage files generated from the [@uzh-dqbm-cmi](https://github.com/uzh-dqbm-cmi) cfDNA pipeline, [ichorCNA](https://github.com/broadinstitute/ichorCNA) copy number files and TFBS data acquired from [GTRD](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/). The Euclidean distance between case and control fragment coverage signals is analyzed and the signals plotted.
+disTF is a command-line tool for the analysis of cell-free DNA (cfDNA) fragment coverage[^note] in regions around cell-specific transcription factor binding sites (TFBS). It takes as input fragment coverage files generated from the [@uzh-dqbm-cmi](https://github.com/uzh-dqbm-cmi) cfDNA pipeline, [ichorCNA](https://github.com/broadinstitute/ichorCNA) copy number files and TFBS data acquired from [GTRD](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/). 
+The analysis is carried out in two steps:
+- Calculation of the Euclidean distance between case-control and control-control fragment coverage signals and plotting. 
+- The Kolmogorov-Smirnov test with the Bonferroni correction for case-control distances and control-control distances.
 [^note]: Genome tools (e.g. bedtools) routinely report read coverage. In paired-end sequencing, read coverage depends on the inner distance between reads. Therefore, read coverage can be zero, one, or two at a given genomic coordinate, whereas fragment coverage is always one. See [figure](read_vs_frag.png).
 ## Manual
+### To calculate the distances:
 ~~~text
 usage: disTF.py [-h] --tf_dir TF_DIRECTORY --tfs TF_FILE --cells CELL_FILE
                 [--sites SITES] [--overlap OVERLAP] -o OUT_DIRECTORY
@@ -11,7 +15,7 @@ usage: disTF.py [-h] --tf_dir TF_DIRECTORY --tfs TF_FILE --cells CELL_FILE
                 [--xticklabels XTICKLABELS [XTICKLABELS ...]]
 ~~~
 
-### Arguments
+#### Arguments
 **TFBS Arguments**<br />
 **--tf_dir**<br />
 Path to the directory containing TFBS files.<br /> 
@@ -43,20 +47,20 @@ REQUIRED.<br />
 Paths to ichorCNA cna.seg files for each case.<br />
 REQUIRED.<br />
 **--distance**<br />
-Number of bases from center of aggregated signal to evaluate the Euclidean distance.<br />
+Number of bases from center of the aggregated signal to evaluate the Euclidean distance.<br />
 DEFAULT: `50`.<br />
 **--bases**<br />
-Number of bases from the center of TFBS to be included in output files.<br />
+Number of bases from the center of the TFBS to be included in output files.<br />
 DEFAULT: `1000`.<br />
 <br />
 **Plot Arguments**<br />
 **--xticks**<br />
-Position of ticks on x-axis of plots. Theses values are indices. Therefore, if the `bases` arguement is 1000, the indices will range from 0 to 2001.<br />DEFAULT: `[0, 499, 1000, 1501, 2001]`.<br />
+Position of ticks on x-axis of plots. Theses values are indices. Therefore, if the `bases` argument is 1000, the indices will range from 0 to 2001.<br />DEFAULT: `[0, 499, 1000, 1501, 2001]`.<br />
 **--xticklabels**<br /> 
 Labels for ticks on x-axis. The number of labels should be equal to the number of `xticks`.<br />
 DEFAULT: `[-1000, -500, 0, 500, 1000]`.
 
-### Example Usage
+#### Example Usage
 ~~~text
 TF_DIRECTORY="/path/to/GTRD/clusters"
 TF_FILE="tfs.txt"
@@ -74,12 +78,36 @@ python ./disTF.py --tf_dir "$TF_DIRECTORY" --tfs "$TF_FILE" --cells "$CELL_FILE"
 --xticks ${XTICKS} --xticklabels ${XTICKLABELS} 
 ~~~
 
+### For statistical analysis:
+Run from current working directory containing multiple case sub-directories to generate a single set of files across all samples.<br />
+~~~text
+usage: stats.py [-h] --controls CTRLS [CTRLS ...]
+
+Kolmogorov-Smirnov test by TF for all samples.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --controls CTRLS [CTRLS ...]
+                        control names
+~~~ 
+
+#### Arguments
+**--controls**<br />
+Names of controls.<br /> 
+REQUIRED.<br />
+
+#### Example Usage
+~~~text
+CONTROLS="control1 control2 control3"
+
+python ./stats.py --controls ${CONTROLS}
+~~~
 
 ## Output
-disTF creates a directory as specified by the `-o` argument. Within this directory, the following are created:<br />
+distf.py creates a directory as specified by the `-o` argument. Within this directory, the following are created:<br />
 - **signal.parquet**: fragment coverage normalized by sequencing depth and CNAs over the TFBS regions,<br />
-- **product.parquet**: all unique distances between samples,<br />
-- **combinations.parquet**: all possible distances between samples,<br />
+- **product.parquet**: all unique distances between case and control samples,<br />
+- **combinations.parquet**: all possible distances between case and control samples,<br />
 - **pngs**: plots for each TF including all sample signals. Cases signals are colored, while control signals are shown as black, solid or dotted lines. Example shown below.<br />
 <p align="left">
 <img align="left" src="output_ex.png" width="600">
@@ -100,5 +128,16 @@ disTF creates a directory as specified by the `-o` argument. Within this directo
 <br />
 <br />
 <br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+stats.py creates the following files in the current working directory:<br />
+
+- **p_values.parquet**: p-values for each TF, for each sample,<br />
+- **D_stats.parquet**: D statistic for each TF, for each sample.<br />
 <br />
 <br />
