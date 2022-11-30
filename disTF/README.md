@@ -1,7 +1,7 @@
 # disTF
 disTF is a command-line tool for the analysis of cell-free DNA (cfDNA) fragment coverage[^note] in regions around cell-specific transcription factor binding sites (TFBS). It takes as input fragment coverage files generated from the [@uzh-dqbm-cmi](https://github.com/uzh-dqbm-cmi) cfDNA pipeline, [ichorCNA](https://github.com/broadinstitute/ichorCNA) copy number files and TFBS data acquired from [GTRD](http://gtrd.biouml.org:8888/downloads/current/intervals/chip-seq/). 
 The analysis is carried out in two steps:
-- Calculation of the Euclidean distance between case-control and control-control fragment coverage signals and plotting. 
+- Calculation of the Euclidean distance between case-control and control-control fragment coverage signals and plotting of the signals. 
 - The Kolmogorov-Smirnov test with the Bonferroni correction for case-control distances and control-control distances.
 [^note]: Genome tools (e.g. bedtools) routinely report read coverage. In paired-end sequencing, read coverage depends on the inner distance between reads. Therefore, read coverage can be zero, one, or two at a given genomic coordinate, whereas fragment coverage is always one. See [figure](read_vs_frag.png).
 ## Manual
@@ -104,7 +104,7 @@ python ./stats.py --controls ${CONTROLS}
 ~~~
 
 ## Output
-distf.py creates a directory as specified by the `-o` argument. Within this directory, the following are created:<br />
+`distf.py` creates a directory as specified by the `-o` argument. Within this directory, the following are created:<br />
 - **signal.parquet**: fragment coverage normalized by sequencing depth and CNAs over the TFBS regions,<br />
 - **product.parquet**: all unique distances between case and control samples,<br />
 - **combinations.parquet**: all possible distances between case and control samples,<br />
@@ -130,12 +130,8 @@ distf.py creates a directory as specified by the `-o` argument. Within this dire
 <br />
 <br />
 <br />
-<br />
-<br />
-<br />
-<br />
 
-stats.py creates the following files in the current working directory:<br />
+`stats.py` creates the following files in the current working directory:<br />
 
 - **p_values.parquet**: p-values for each TF, for each sample,<br />
 - **D_stats.parquet**: D statistic for each TF, for each sample.<br />
